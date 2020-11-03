@@ -1,11 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Security.Cryptography;
 
 namespace ArraysAndStrings
 {
-    public static class Chapter1
+    public interface IChapter1
     {
-        public static Boolean isUniqueString(string s)
+        bool isPermutation(string s1, string s2);
+        bool isUniqueString(string s);
+        bool OneAway(string s1, string s2);
+        bool PalindromePermutation(string s);
+        string URLifyString(string s, int stringLength);
+    }
+
+    public class Chapter1 : IChapter1
+    {
+        public Boolean isUniqueString(string s)
         {
             if (s.Length < 1)
                 return false;
@@ -25,7 +36,7 @@ namespace ArraysAndStrings
             return true;
         }
 
-        public static Boolean isPermutation(string s1, string s2)
+        public Boolean isPermutation(string s1, string s2)
         {
             if (s1.Length != s2.Length)
                 return false;
@@ -46,7 +57,7 @@ namespace ArraysAndStrings
             return true;
         }
 
-        public static string URLifyString(string s, int stringLength)
+        public string URLifyString(string s, int stringLength)
         {
             string URLifiedString = "";
 
@@ -59,6 +70,24 @@ namespace ArraysAndStrings
             }
 
             return URLifiedString;
+        }
+
+        public Boolean PalindromePermutation(string s)
+        {
+            //#106, #121, #134, #136
+            //What characteristics would a string that is a permutation of a palindrome have
+            //Have you tried a hash table? You should be able to get this down to 0(N) time.
+            return false;
+        }
+
+        public Boolean OneAway(string s1, string s2)
+        {
+            if (s1.Equals(s2))
+                return true;
+
+            List<string> startingString;
+
+            return false;
         }
     }
 }
