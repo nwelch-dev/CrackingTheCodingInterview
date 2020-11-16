@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace ArraysAndStrings
 {
@@ -134,6 +135,62 @@ namespace ArraysAndStrings
             }
 
             return true;
+        }
+
+        public string StringCompression(string uncompressedString)
+        {
+            // The Following Code solves the wrong problem, compressing the string counting the occurance of each char
+            /*
+            Dictionary<char, int> charCounts = new Dictionary<char, int>();
+
+            int count = 0;
+
+            foreach (char ch in uncompressedString)
+            {
+                if (charCounts.TryGetValue(ch, out count))
+                    charCounts[ch] = count + 1;
+                else
+                    charCounts.Add(ch, 1);
+            }
+
+            StringBuilder compressedString = new StringBuilder("");
+            foreach (KeyValuePair<char, int> item in charCounts)
+            {
+                compressedString.Append(item.Key);
+                compressedString.Append(item.Value);
+            }
+
+            return compressedString.ToString();
+            */
+
+
+            // ("aabcccccaaa"), "a2b1c5a3")
+            int charCount = 1;
+            StringBuilder compressedString = new StringBuilder();
+            char currChar = uncompressedString[0];
+
+            for (int i = 1; i < uncompressedString.Length; i++)
+            {
+                if (uncompressedString[i] == currChar)
+                {
+                    charCount++;
+                }
+                else
+                {
+                    compressedString.Append(currChar);
+                    compressedString.Append(charCount);
+                    currChar = uncompressedString[i];
+                    charCount = 1;
+                }
+            }
+
+            compressedString.Append(currChar);
+            compressedString.Append(charCount);
+
+            if (uncompressedString.Length == compressedString.Length)
+                return uncompressedString;
+
+            return compressedString.ToString();
         }
     }
 }

@@ -133,5 +133,27 @@ namespace UnitTests
         {
             Assert.IsFalse(c1.OneAway("pales", "plee"));
         }
+
+        // String Compression
+        [Test]
+        public void StringCompression_WithOneLetter_ShouldReturnEqual()
+        {
+            Assert.AreEqual("a3", c1.StringCompression("aaa"));
+        }
+        [Test]
+        public void StringCompression_WithMultipleLetters_ShouldReturnEqual()
+        {
+            Assert.AreEqual("a2b1c5a3", c1.StringCompression("aabcccccaaa"));
+        }
+        [Test]
+        public void StringCompression_WithCompressedBeingSameLength_ShouldReturnEqual()
+        {
+            Assert.AreEqual("aabbcc", c1.StringCompression("aabbcc"));
+        }
+        [Test]
+        public void StringCompression_WithUncompressedBeingOneLonger_ShouldReturnEqual()
+        {
+            Assert.AreEqual("a2b2c3", c1.StringCompression("aabbccc"));
+        }
     }
 }
