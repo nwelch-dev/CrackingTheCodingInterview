@@ -2,6 +2,7 @@ using NUnit.Framework;
 using ArraysAndStrings;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
 using NSubstitute;
+using System.Net.Http.Headers;
 
 namespace UnitTests
 {
@@ -73,18 +74,64 @@ namespace UnitTests
             Assert.AreEqual(c1.URLifyString("MrJohnSmith", 11), "MrJohnSmith");
         }
 
+        /* Specific example for learning Dependency Injection
+         * Through using NSubstitute, we are able to inject a mock "Fake"
+         * isUnique2's dependency which is isUniqueString
+         * This allows our test to remain a true Unit Test
+         * having complete control over our testing 
+        */
         [Test]
         public void IsUnique2_WithAnyStringFalse_ShouldReturnFalse()
         {
             // arrange
-            var FakeChapter1 = Substitute.For<IChapter1>();
-            FakeChapter1.isUniqueString(Arg.Any<string>()).Returns(false);
+            //var FakeChapter1 = Substitute.For<IChapter1>();
+            //FakeChapter1.isUniqueString(Arg.Any<string>()).Returns(false);
+
+            IChapter1 chap1 = new Chapter1(); // Injecting Real Dependency
 
             // act
-            IsUniqueClient client = new IsUniqueClient(FakeChapter1);
+            //IsUniqueClient client = new IsUniqueClient(FakeChapter1); // Injecting a 'Fake' Dependency
+            IsUniqueClient client = new IsUniqueClient(chap1);
 
             // assert
             Assert.AreEqual(client.isUnique2("hello"), 2);
+        }
+
+        // One Away String Tests
+        [Test]
+        public void OneAway_WithOneLetterOffAndDifferentLength_ShouldReturnTrue()
+        {
+            Assert.IsTrue(c1.OneAway("pale", "ple"));
+        }
+        [Test]
+        public void OneAway_WithDuplicateLetters_ShouldReturnTrue()
+        {
+            Assert.IsTrue(c1.OneAway("Cool", "Fool"));
+        }
+        [Test]
+        public void OneAway_WithTwoLettersOff_ShouldReturnFalse()
+        {
+            Assert.IsFalse(c1.OneAway("pale", "bake"));
+        }
+        [Test]
+        public void OneAway_WithOneLetterOffSameLength_ShouldReturnTrue()
+        {
+            Assert.IsTrue(c1.OneAway("pale", "bale"));
+        }
+        [Test]
+        public void OneAway_WithTwoLettersOffButSameLengthAsFirst_ShouldReturnFalse()
+        {
+            Assert.IsFalse(c1.OneAway("pale", "plee"));
+        }
+        [Test]
+        public void OneAway_WithRemovingOneLetter_ShouldReturnTrue()
+        {
+            Assert.IsTrue(c1.OneAway("pales", "pale"));
+        }
+        [Test]
+        public void OneAway_WithTwoLettersOffButDifferentLengthAsFirst_ShouldReturnFalse()
+        {
+            Assert.IsFalse(c1.OneAway("pales", "plee"));
         }
     }
 }

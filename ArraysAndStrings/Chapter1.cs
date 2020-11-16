@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 
@@ -85,9 +86,54 @@ namespace ArraysAndStrings
             if (s1.Equals(s2))
                 return true;
 
-            List<string> startingString;
+            if (s1.Length != s2.Length)
+                return OneAwayWithDifferentLength(s1, s2);
+            else
+            {
+                int offCount = 0;
+                for (int i = 0; i < s1.Length; i++)
+                {
+                    if (s1[i] != s2[i])
+                        offCount++;
+                }
 
-            return false;
+                if (offCount > 1)
+                    return false;
+
+                return true;
+            }
+        }
+
+        public Boolean OneAwayWithDifferentLength(string s1, string s2)
+        {
+            if (s1.Length >= s2.Length)
+            {
+                int offCount = 0;
+
+                for (int i = 0; i < s1.Length; i++)
+                {
+                    if (!s2.Contains(s1[i]))
+                        offCount++;
+                }
+
+                if (offCount > 1)
+                    return false;
+            }
+            else
+            {
+                int offCount = 0;
+
+                for (int i = 0; i < s2.Length; i++)
+                {
+                    if (!s1.Contains(s2[i]))
+                        offCount++;
+                }
+
+                if (offCount > 1)
+                    return false;
+            }
+
+            return true;
         }
     }
 }
